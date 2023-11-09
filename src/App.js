@@ -1,25 +1,53 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useCallback, useEffect, useState } from "react";
+import { useRoutes } from "react-router-dom";
+import AuthContext from "./context/authContext";
+import routes from "./routes";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+import "./App.css";
+
+export default function App() {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [token, setToken] = useState(false);
+    const [userInfos, setUserInfos] = useState({});
+
+    const router = useRoutes(routes);
+
+    const login = (userInfos, token) => {
+        setToken(token);
+        setIsLoggedIn(true);
+        setUserInfos(userInfos);
+        localStorage.setItem("user", JSON.stringify({ token }));
+    };
+
+    const logout = useCallback(() => {
+        setToken(null);
+        setUserInfos({});
+        localStorage.removeItem("user");
+    });
+
+    useEffect(() => {
+        const localStorageData = JSON.parse(localStorage.getItem("user"));
+        if (localStorageData) {
+            fetch(`http://localhost:4000/v1/auth/me`, {
+                headers: {
+                    Authorization: `Bearer ${localStorageData.token}`
+                }
+            })
+                .then(res => res.json())
+                .then(userData => {
+                    setIsLoggedIn(true);
+                    setUserInfos(userData);
+                });
+        } else {
+            setIsLoggedIn(false);
+        }
+    }, [login, logout]);
+
+    return (
+        <AuthContext.Provider
+            value={{ isLoggedIn, token, userInfos, login, logout }}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+            {router}
+        </AuthContext.Provider>
+    );
 }
-
-export default App;

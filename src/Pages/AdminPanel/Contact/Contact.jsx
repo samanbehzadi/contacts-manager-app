@@ -33,6 +33,7 @@ export default function Contact() {
                 }).then(respJSON => {
                     console.log(respJSON);
                     if (respJSON.ok) {
+                        getAllContacts()
                         return respJSON.json()
                     }
                 }).then(result => console.log('Result:', result))
@@ -74,7 +75,7 @@ export default function Contact() {
                     <tbody>
                         {contacts.map((contact, index) => (
                             <tr>
-                                <td>{index + 1}</td>
+                                <td className={`bg bg-${contact.answer === 0 ? 'danger' : 'success'}`}>{index + 1}</td>
                                 <td>{contact.name}</td>
                                 <td>{contact.email}</td>
                                 <td>{contact.phone}</td>

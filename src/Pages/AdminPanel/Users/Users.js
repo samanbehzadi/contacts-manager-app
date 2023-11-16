@@ -89,7 +89,7 @@ export default function Users() {
             .then(res => {
                 return res.json();
             })
-            .then(result => {
+            .then(() => {
                 swal({ title: "کاربر مورد نظر با موفقیت اضافه شد", icon: "success", buttons: "اوکی" });
                 getAllUsers();
             })};
@@ -203,7 +203,6 @@ export default function Users() {
                             <tr>
                                 <td>{index + 1}</td>
                                 <td>{user.name}</td>
-                                {/* <td>09123443243</td> */}
                                 <td>{user.email}</td>
                                 <td>
                                     <button type="button" className="btn btn-primary edit-btn">

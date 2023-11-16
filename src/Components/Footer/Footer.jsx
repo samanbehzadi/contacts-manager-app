@@ -105,7 +105,7 @@ export default function Footer() {
                                     </a>
                                 </div>
                                 <div className="col-6">
-                                    <Link to={'/contact-us'} className="footer-widgets__link">
+                                    <Link to={'/contact'} className="footer-widgets__link">
                                         ارتباط با ما
                                     </Link>
                                 </div>

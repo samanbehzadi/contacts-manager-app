@@ -8,6 +8,7 @@ import Login from "./Pages/Login/Login";
 import Register from "./Pages/Register/Register";
 import Contact from "./Pages/Contact/Contact";
 import Search from "./Pages/Search/Search";
+import Session from "./Pages/Session/Session";
 
 import AdminPanel from "./Pages/AdminPanel/index";
 import Users from "./Pages/AdminPanel/Users/Users";
@@ -29,6 +30,7 @@ const routes = [
     { path: "/register", element: <Register /> },
     { path: "/contact", element: <Contact /> },
     { path: "/search/:value", element: <Search /> },
+    {path: "/:courseName/:sessionID", element: <Session/>},
 
     {
         path: "/p-admin/*",

@@ -1,0 +1,48 @@
+.create_new_contact_btn{
+    /* background-color: var(--Pink) !important; */
+    background-color: rgba(207, 103, 207, 0.423) !important;
+    border: 2px solid var(--Purple) !important;
+    color: white;
+    transition: all ease-in-out .3s;
+    display: flex !important;
+    align-items: center !important;
+    width: 4rem !important;
+    height: 4rem !important;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1;
+}
+.create_new_contact_btn:hover{
+    background: var(--Purple) !important;
+    
+}
+.list-group{
+    padding: 0;
+}
+.btn_eye{
+    background-color: var(--Orange) !important;
+    transition: all .3s ease-in-out;
+}
+.btn_pencil{
+    background-color: var(--Cyan) !important;
+    transition: all .3s ease-in-out;
+}
+.btn_trash3{
+    background-color: var(--Red) !important;
+    transition: all .3s ease-in-out;
+}
+.btn_eye:hover{
+    background-color: #b88753 !important;
+}
+.btn_pencil:hover{
+    background-color: #5d99a7 !important;
+}
+.btn_trash3:hover{
+    background-color: #9b3434 !important;
+}
+
+.btn-outline-purple{
+    background-color: var(--Purple);
+    color: white;
+}

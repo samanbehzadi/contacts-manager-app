@@ -1,0 +1,54 @@
+{
+  "contacts": [
+    {
+      "fullname": "ایمان مداینی",
+      "photo": "",
+      "mobile": "093121112233",
+      "email": " iman_madaeny@gmail.com",
+      "job": "برنامه نویس",
+      "group": "1",
+      "id": 1
+    },
+    {
+      "fullname": "سامان بهزادی ",
+      "photo": " images/FastFood/client1.jpg",
+      "email": "nima23behzadi@outlook.com",
+      "mobile": "09381778060",
+      "job": "برنامه نویس",
+      "group": "2",
+      "id": 5,
+      "phone": "09380554689"
+    },
+    {
+      "fullname": "سامان بهزادی ",
+      "photo": "",
+      "email": "test@test.com",
+      "mobile": "09352314597",
+      "job": "programmer",
+      "group": "2",
+      "id": 6
+    }
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "name": "همکار"
+    },
+    {
+      "id": 2,
+      "name": "دوست"
+    },
+    {
+      "id": 3,
+      "name": "فامیل"
+    },
+    {
+      "id": 4,
+      "name": "سرویس"
+    },
+    {
+      "id": 5,
+      "name": "آشنا"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+#basic-addon1{
+    background-color: var(--Pink);
+    transition: all .3s ease-in-out;
+}
+#basic-addon1:hover{
+    background-color: var(--Purple);
+}
+
+.search_input{
+    background-color: var(--Background) !important;
+    color: var(--Purple) !important;
+    border: solid var(--Purple) 1px  !important;
+}
+.search_input::placeholder{
+    color: white !important;
+}

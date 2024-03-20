@@ -1,0 +1,22 @@
+هنگامی که از هوک useEffect استفاده میکنیم ما چرخه های حیات زیر را نداریم
+getDrivedStateFromProps - shouldComponentUpdate - getSnapshotBeforeUpdate 
+
+و فقط چرخه های حیات مهم را داریم مثل 
+mount - unmount - update
+
+برای چرخه‌ی حیات unmount با استفاده از useEffect به شکل زیر باید یک تابع بینام برگردانیم
+useEffect (()=>{
+    return () =>{
+        // Codes should preform in UNMOUNT LifeCycle
+    }
+},[])
+
+برای چرخه‌ی حیات MOUNT باید آرایه وابستگی برای useEffect تعیین کنیم
+useEffect(()=>{
+    // Codes should preform in MOUNT LifeCycle
+}, [])
+
+برای چرخه‌ی حیات UPDATE باید درون آرایه وابستگی مقدار آپدیت شونده را تعیین کنیم
+useEffect(()=>{
+    // Codes should preform in UPDATE LifeCycle
+}, [count])

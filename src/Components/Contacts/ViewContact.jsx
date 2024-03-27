@@ -1,18 +1,20 @@
 import React from 'react'
 import axios from 'axios'
+import { useContext } from 'react'
+import { ContactContext } from '../../Context/contactContext'
 import { Link, useParams } from 'react-router-dom'
 import Loading from '../Loading/Loading'
 
 
 export default function ViewContact() {
     const { contactId } = useParams()
-    const [state, setState] = React.useState({ loading: false, contact: {}, group: {} })
+    const [state, setState] = React.useState({ contact: {}, group: {} })
+    const {loading, setLoading} = useContext(ContactContext)
 
     React.useEffect(() => {
         const fetchData = async () => {
             try {
-                setState({ ...state, loading: true })
-
+                setLoading(true)
                 /* assign data to a variable using Object Destructuring
                  const { data: contactsData } = await axios.get(`http://localhost:9000/contacts/${contactId}`)
                 const {data: groupsData } = await axios.get(`http://localhost:9000/groups/${contactData.data.group}`)*/
@@ -20,16 +22,17 @@ export default function ViewContact() {
                 let contactData = await axios.get(`http://localhost:9000/contacts/${contactId}`)
                 let groupData = await axios.get(`http://localhost:9000/groups/${contactData.data.group}`)
                 
-                setState({ ...state, loading: false, contact: contactData.data, group: groupData.data })                
+                setLoading(false)
+                setState({ ...state, contact: contactData.data, group: groupData.data })                
             } catch (err) {
                 console.log(err.message)
-                setState({ ...state, loading: false })
+                setLoading(false)
             }
         }
         fetchData()
     }, [])
 
-    const { loading, contact, group } = state
+    const {  contact, group } = state
     return (
         <>
             <div className="container-fluid">

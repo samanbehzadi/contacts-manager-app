@@ -8,14 +8,16 @@ import Contacts from './Components/Contacts/Contacts'
 import EditContact from './Components/Contacts/EditContact'
 import ViewContact from './Components/Contacts/ViewContact'
 import Navbar from './Components/Navbar/Navbar'
+import { ContactContext } from './Context/contactContext'
 
 export default function App() {
     const [contacts, setContacts] = React.useState([])
     const [groups, setGroups] = React.useState([])
-    const [query, setQuery] = React.useState({ text: '' })
+    const [contactQuery, setContactQuery] = React.useState({ text: '' })
     const [filteredContacts, setFilteredContacts] = React.useState([])
     const [loading, setLoading] = React.useState(false)
-    const [forceRender, setForceRender] = React.useState(false)
+    // const [forceRender, setForceRender] = React.useState(false)
+
     // get the value of all inputs & set them to their keys Together
     const [contact, setContact] = React.useState({ fullname: "", photo: "", email: "", mobile: "", job: "", group: "" });
     const navigate = useNavigate()
@@ -42,18 +44,22 @@ export default function App() {
             }
         }
         fetchData()
-    }, [forceRender])
+    }, [])
 
-    const setContactInfo = event => {
+    const onContactChange = event => {
         setContact({ ...contact, [event.target.name]: event.target.value });
     };
 
     const createContactForm = async event => {
         event.preventDefault()
         try {
-            const { status } = await axios.post(`http://localhost:9000/contacts`, contact)
+            // to re-render: first, we destructed new Obj of user (data) then we set new array of Contacts with new data Obj. below:
+            const { status, data } = await axios.post(`http://localhost:9000/contacts`, contact)
             if (status === 201) {
-                setForceRender(!forceRender)
+                // we should NOT update the a state Directly, we should take Copy of previous data of state and then add new data to it. below:
+                let allContacts = [...contacts, data]
+                setContacts(allContacts)
+                setFilteredContacts(allContacts)
                 Swal.fire({ title: 'مخاطب جدید با موفقیت ساخته شد', icon: 'success', confirmButtonText: 'خوبه', confirmButtonColor: "green" })
                 navigate('/')
                 // redirect('/contacts')
@@ -64,15 +70,16 @@ export default function App() {
         }
     }
 
+
     const contactSearch = event => {
-        setQuery({ ...query, text: event.target.value })
+        setContactQuery({ ...contactQuery, text: event.target.value })
         const allContacts = contacts.filter(contact => {
             return contact.fullname.toLowerCase().includes(event.target.value.toLowerCase())
         })
         setFilteredContacts(allContacts)
     }
 
-
+    // confirmDelete
     const deleteContact = contactId => {
         try {
             Swal.fire({
@@ -80,36 +87,40 @@ export default function App() {
                 denyButtonText: 'خیر', denyButtonColor: 'red', showDenyButton: 'true'
             })
                 .then(result => {
+                    let allContacts = [...contacts]
+                    let updatedContact = contacts.filter(c => c.id !== contactId)
+                    setContacts(updatedContact)
+                    setFilteredContacts(updatedContact)
                     if (result.isConfirmed) {
                         let response = axios.delete(`http://localhost:9000/contacts/${contactId}`)
                         if (response) {
                             Swal.fire({ title: 'مخاطب با موفقیت حذف شد', icon: 'success', confirmButtonText: 'خوبه' })
-                            setForceRender(!forceRender)
                         }
+                    } else if(result.isDenied){
+                        setContacts(allContacts)
+                        setFilteredContacts(allContacts)
                     }
                 })
         } catch (err) {
             Swal.fire({ title: 'مشکلی پیش آمد و عملیات انجام نشد', icon: 'error', confirmButtonText: 'باشه' })
+            setContacts(contacts)
+            setFilteredContacts(contacts)
             console.log(err.message);
         }
     }
     return (
-        <div >
-            <Navbar query={query} search={contactSearch} />
-            <Routes>
-                <Route path='/' element={
-                    <Contacts confirmDelete={deleteContact} loading={loading} contacts={filteredContacts} forceRender={forceRender} setForceRender={setForceRender} />} />
-
-                <Route path='/contacts/add-contact' element={
-                    <AddContact setContactInfo={setContactInfo} contact={contact} groups={groups} createContactForm={createContactForm} />} />
-
-                <Route path='/contacts/:contactId' element={<ViewContact />} />
-                
-                <Route path='/contacts/edit/:contactId' element={
-                    <EditContact forceRender={forceRender} setForceRender={setForceRender} />} />
-
-                <Route path='*' element={<h2 className='text-center mt-5'>not found</h2>} />
-            </Routes>
-        </div>
+        // when we have key and value with same name in a Obj, we can write only the key name like below:
+        <ContactContext.Provider value={{ loading, setLoading, contact, setContact, contacts, filteredContacts, groups, onContactChange, deleteContact, createContact: createContactForm, contactSearch, contactQuery, setContacts, setFilteredContacts }}>
+            <div >
+                <Navbar />
+                <Routes>
+                    <Route path='/' element={<Contacts />} />
+                    <Route path='/contacts/add-contact' element={<AddContact />} />
+                    <Route path='/contacts/:contactId' element={<ViewContact />} />
+                    <Route path='/contacts/edit/:contactId' element={<EditContact />} />
+                    <Route path='*' element={<h2 className='text-center mt-5'>not found</h2>} />
+                </Routes>
+            </div>
+        </ContactContext.Provider>
     )
 }

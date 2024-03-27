@@ -1,33 +1,28 @@
 import React from 'react'
+import { useContext } from 'react'
+import { ContactContext } from '../../Context/contactContext'
 import { Link } from 'react-router-dom'
 import Loading from '../Loading/Loading'
 import Contact from './Contact'
 import './Contacts.css'
 
 
-export default function Contacts({contacts, loading, confirmDelete}) {
-  
+export default function Contacts() {
+    const {filteredContacts, loading, deleteContact} = useContext(ContactContext)
     return (
         <>
             <div className='container-fluid'>
                 <div className="row d-flex justify-content-center">
-                    {/* <div className="col"> */}
-                    {/* <p className="h3"> */}
                     <Link to='contacts/add-contact' className='btn mx-auto rounded-pill create_new_contact_btn' title='مخاطب جدید'>
-                        {/* مخاطب جدید */}
                         <i className="bi bi-person-plus mx-1 fs-3"></i>
                     </Link>
-                    {/* </p> */}
-                    {/* </div> */}
                 </div>
                 {loading ? <Loading />
                     :
                     (
                         <div className="row">
-                            {contacts.length !== 0 ? contacts.map(contact => (
-                                <>
-                                    <Contact key={contact.id} contact={contact}  confirmDelete={() => confirmDelete(contact.id)}/>
-                                </>
+                            {filteredContacts.length !== 0 ? filteredContacts.map(contact => (
+                                    <Contact key={contact.id} contact={contact}  confirmDelete={() => deleteContact(contact.id)}/>
                             ))
                                 :
                                 <div className="text-center my-3">

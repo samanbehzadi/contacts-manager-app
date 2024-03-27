@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import Search from '../Search/Search'
 import './Navbar.css'
 
-export default function Navbar({ query, search }) {
+export default function Navbar() {
     const location = useLocation()
     return (
         <nav className='navbar navbar-dark  navbar-expand-sm text-white'>
@@ -19,7 +19,7 @@ export default function Navbar({ query, search }) {
                     </div>
                     {location.pathname === '/' ? (
                         <div className="col">
-                            <Search query={query} search={search} />
+                            <Search />
                         </div>
                     ) : null}
                 </div>

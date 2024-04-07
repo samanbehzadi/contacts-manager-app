@@ -3,7 +3,6 @@ import { createContext } from "react";
 export const ContactContext = createContext({
     loading: false,
     contact: {},
-    contactQuery: {} /* this Obj is for Search */,
     groups: [],
     contacts: [],
     filteredContacts: [],

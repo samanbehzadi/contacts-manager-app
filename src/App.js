@@ -13,7 +13,6 @@ import { ContactContext } from './Context/contactContext'
 export default function App() {
     const [contacts, setContacts] = React.useState([])
     const [groups, setGroups] = React.useState([])
-    const [contactQuery, setContactQuery] = React.useState({ text: '' })
     const [filteredContacts, setFilteredContacts] = React.useState([])
     const [loading, setLoading] = React.useState(false)
     // const [forceRender, setForceRender] = React.useState(false)
@@ -50,11 +49,11 @@ export default function App() {
         setContact({ ...contact, [event.target.name]: event.target.value });
     };
 
-    const createContactForm = async event => {
-        event.preventDefault()
+    const createContactForm = async values => {
+        // event.preventDefault()
         try {
             // to re-render: first, we destructed new Obj of user (data) then we set new array of Contacts with new data Obj. below:
-            const { status, data } = await axios.post(`http://localhost:9000/contacts`, contact)
+            const { status, data } = await axios.post(`http://localhost:9000/contacts`, values)
             if (status === 201) {
                 // we should NOT update the a state Directly, we should take Copy of previous data of state and then add new data to it. below:
                 let allContacts = [...contacts, data]
@@ -70,13 +69,18 @@ export default function App() {
         }
     }
 
+    let filterTimeout;
+    const contactSearch = query => {
+        // to implement Debouncing(after specified time (1000) this code will run) for search contact
+        clearTimeout(filterTimeout)
 
-    const contactSearch = event => {
-        setContactQuery({ ...contactQuery, text: event.target.value })
-        const allContacts = contacts.filter(contact => {
-            return contact.fullname.toLowerCase().includes(event.target.value.toLowerCase())
-        })
-        setFilteredContacts(allContacts)
+        if (!query) return setFilteredContacts([...contacts])
+
+        filterTimeout = setTimeout(() => {
+            setFilteredContacts(contacts.filter(contact => {
+                return contact.fullname.toLowerCase().includes(query.toLowerCase())
+            }))
+        }, 1000)
     }
 
     // confirmDelete
@@ -96,7 +100,7 @@ export default function App() {
                         if (response) {
                             Swal.fire({ title: 'مخاطب با موفقیت حذف شد', icon: 'success', confirmButtonText: 'خوبه' })
                         }
-                    } else if(result.isDenied){
+                    } else if (result.isDenied) {
                         setContacts(allContacts)
                         setFilteredContacts(allContacts)
                     }
@@ -110,7 +114,7 @@ export default function App() {
     }
     return (
         // when we have key and value with same name in a Obj, we can write only the key name like below:
-        <ContactContext.Provider value={{ loading, setLoading, contact, setContact, contacts, filteredContacts, groups, onContactChange, deleteContact, createContact: createContactForm, contactSearch, contactQuery, setContacts, setFilteredContacts }}>
+        <ContactContext.Provider value={{ loading, setLoading, contact, setContact, contacts, filteredContacts, groups, onContactChange, deleteContact, createContact: createContactForm, contactSearch, setContacts, setFilteredContacts }}>
             <div >
                 <Navbar />
                 <Routes>

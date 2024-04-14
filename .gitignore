@@ -26,3 +26,4 @@ yarn-error.log*
 /src(FastFood)
 /my-app.rar
 /ContactList.rar
+/server/node_modules

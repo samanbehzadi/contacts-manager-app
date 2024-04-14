@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/contacts-manageer-app/static/css/main.dd54522d.css",
+    "main.js": "/contacts-manageer-app/static/js/main.93058374.js",
+    "index.html": "/contacts-manageer-app/index.html",
+    "main.dd54522d.css.map": "/contacts-manageer-app/static/css/main.dd54522d.css.map",
+    "main.93058374.js.map": "/contacts-manageer-app/static/js/main.93058374.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.dd54522d.css",
+    "static/js/main.93058374.js"
+  ]
+}

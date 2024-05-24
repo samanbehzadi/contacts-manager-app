@@ -29,6 +29,7 @@ export default function Contacts() {
                                     <div className="alert alert-danger" role="alert">
                                         <strong>مخاطبی وجود ندارد</strong>
                                         <i className='my-3 d-block'>لطفا از راه اندازی سرور اطمینان پیدا کنید</i>
+                                        <i className='my-3 d-block'>پروژه را در کلون و سپس در لوکال خود اجرا کنید</i>
                                     </div>
                                 </div>
                             }
